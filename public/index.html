@@ -48,7 +48,15 @@
 
 <body style="background: url('images/backgroundsa.png')">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-     
+            <!-- TOOLBAR -->
+             <!-- <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row" style="padding-left: 16px;"
+                    <button class="mdl-button mdl-js-button mdl-button--icon" style="margin-right: 24px;">
+                        <i class="material-icons" id="app_return">arrow_back</i>
+                    </button>
+                    <span class="mdl-layout-title">I street</span>
+                    <div class="mdl-layout-spacer"></div>*/
+             </header> -->
         <!-- MAIN CONTENT -->
         <main class="mdl-layout__content">
             <div class="page-content">
@@ -99,15 +107,20 @@
                         </button>
                     </div>
                     <!-- LOGIN ACTIONS BORDER -->
-                    <div class="mdl-card__actions mdl-card--border">
+                    <div class="mdl-card__actions mdl-card--border" style="display: flex; justify-content: space-between;">
                         <!-- FORGOT PASSWORD LINK => app_forgotPassword -->
                         <a id="app_forgotPassword"
                             class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
                             style="color: #6600ff;">
                             Recuperar cadastro
-                       
                         </a>
+
+                        <!-- HELP BUTTON => app_help -->
+                     <button class="mdl-button mdl-js-button mdl-button--icon">
+                        <i class="material-icons" id="app_help">help</i>
+                    </button>
                     </div>
+                     
                 </div>
             </div>
         </main>
