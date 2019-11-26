@@ -192,7 +192,7 @@
         // INITIALIZE MAP => CONSTRUCTOR element, baseLayer, opt_options
         map = new H.Map(target, defaultLayers.normal.map, {
             pixelRatio: pixelRatio,
-            center: { lat: - 23.271444, lng: - 45.935995 },
+            center: { lat: - 27.597843, lng: - 48.520084 },
             zoom: 9
         }),
         // MAKE THE MAP INTERACTIVE
@@ -876,7 +876,6 @@
                     color: getPetColor(obj_pet.ipt_color),
                     injured: obj_pet.ipt_condition[0].checked ? true : false,
                     sick: obj_pet.ipt_condition[1].checked ? true : false,
-                    fed: obj_pet.ipt_condition[2].checked ? true : false,
                     description: obj_pet.ipt_description.value.trim(),
                     address: obj_pet.ipt_address.value.trim(),
                     coordinates: obj_coordinate,

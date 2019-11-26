@@ -32,7 +32,7 @@ let platform = new H.service.Platform({
     },
     // FUNCTION TO RESTRICTS THE MAP
     restrictMap = map => {
-        let bounds = new H.geo.Rect(-22.76660, -46.20264, -23.46941, -45.67104);
+        let bounds = new H.geo.Rect(-27.430349, -48.613369, -27.827543, -48.315456);
         map.getViewModel().addEventListener('sync', () => {
             let center = map.getCenter();
             if (!bounds.containsPoint(center)) {
