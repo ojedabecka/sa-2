@@ -119,7 +119,7 @@
             data.map(item => {
                 let pet_date = item.date.substr(0, item.date.length - 14).split('-');
                 switch (item.type) {
-                    case 'Gato':
+                    case 'Comida':
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#546EFD;">pets</i>
@@ -130,7 +130,7 @@
                         </span>
                         </li>`;
                         break;
-                    case 'Cachorro':
+                    case 'Artesanato':
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#FF9800;">pets</i>
