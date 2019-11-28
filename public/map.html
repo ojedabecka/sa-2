@@ -45,7 +45,7 @@
     <link rel="manifest" href="manifest.json">
 
     <style>
-        .pet_list {
+        .vendedor_list {
             margin: 5%;
             width: 90%;
         }
@@ -113,7 +113,7 @@
                                 style="width: 70%; align-self: center; padding: 16px 0 0 0; text-align: justify;">
                                 Lista ordenada conforme a data em que os vendedores foram adicionados:
                             </div>
-                            <ul class="pet_list mdl-list">
+                            <ul class="vendedor_list mdl-list">
                             </ul>
                         </div>
                     </div>
@@ -130,10 +130,10 @@
                                 style="width: 70%; align-self: center; padding: 16px 0; text-align: justify;">
                                 Favor informar o nome do vendedor *:
                             </div>
-                            <!-- PET NAME INPUT => pet_nickname -->
+                            <!-- PET NAME INPUT => vendedor_nickname -->
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
                                 style="width: 70%; align-self: center;">
-                                <input class="mdl-textfield__input" type="text" id="pet_nickname" maxlength="15">
+                                <input class="mdl-textfield__input" type="text" id="vendedor_nickname" maxlength="15">
                                 <label class="mdl-textfield__label" for="user_name">Nome</label>
                             </div>
                             <!-- PET TYPE TEXT -->
@@ -141,22 +141,22 @@
                                 style="width: 70%; align-self: center; padding: 16px 0; text-align: justify;">
                                 Favor informar o tipo de produto *:
                             </div>
-                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pet_type1"
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="vendedor_type1"
                                 style="width: 70%; align-self: center; margin-bottom: 16px;">
-                                <input type="radio" id="pet_type1" class="mdl-radio__button" name="pet_type"
-                                    value="Comida" checked>
+                                <input type="radio" id="vendedor_type1" class="mdl-radio__button" name="vendedor_type"
+                                    value="comida" checked>
                                 <span class="mdl-radio__label">Comida/Bebida</span>
                             </label>
-                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pet_type2"
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="vendedor_type2"
                                 style="width: 70%; align-self: center; margin-bottom: 16px;">
-                                <input type="radio" id="pet_type2" class="mdl-radio__button" name="pet_type"
-                                    value="Artesanato">
+                                <input type="radio" id="vendedor_type2" class="mdl-radio__button" name="vendedor_type"
+                                    value="artesanato">
                                 <span class="mdl-radio__label">Artesanato</span>
                             </label>
-                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pet_type3"
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="vendedor_type3"
                                 style="width: 70%; align-self: center; margin-bottom: 16px;">
-                                <input type="radio" id="pet_type3" class="mdl-radio__button" name="pet_type"
-                                    value="Outro">
+                                <input type="radio" id="vendedor_type3" class="mdl-radio__button" name="vendedor_type"
+                                    value="outro">
                                 <span class="mdl-radio__label">Outro</span>
                             </label>
                             <!-- PET COLOR TEXT -->
@@ -164,21 +164,21 @@
                                 style="width: 70%; align-self: center; padding: 16px 0;">
                                 Favor informar o horário de trabalho *:
                             </div>
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="pet_color1"
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="vendedor_turno1"
                                 style="width: 70%; align-self: center; margin-bottom: 16px;">
-                                <input type="checkbox" id="pet_color1" class="mdl-checkbox__input" name="pet_color"
+                                <input type="checkbox" id="vendedor_turno1" class="mdl-checkbox__input" name="vendedor_turno"
                                     value="branco">
                                 <span class="mdl-checkbox__label">Manhã</span>
                             </label>
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="pet_color2"
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="vendedor_turno2"
                                 style="width: 70%; align-self: center; margin-bottom: 16px;">
-                                <input type="checkbox" id="pet_color2" class="mdl-checkbox__input" name="pet_color"
+                                <input type="checkbox" id="vendedor_turno2" class="mdl-checkbox__input" name="vendedor_turno"
                                     value="cinza">
                                 <span class="mdl-checkbox__label">Tarde</span>
                             </label>
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="pet_color3"
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="vendedor_turno3"
                                 style="width: 70%; align-self: center; margin-bottom: 16px;">
-                                <input type="checkbox" id="pet_color3" class="mdl-checkbox__input" name="pet_color"
+                                <input type="checkbox" id="vendedor_turno3" class="mdl-checkbox__input" name="vendedor_turno"
                                     value="preto">
                                 <span class="mdl-checkbox__label">Noite</span>
                             </label>                        
@@ -188,16 +188,16 @@
                                 (Opcional) Informações Adicionais ():
                             </div>
                             <!-- PET INJURED -->
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="pet_injured"
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="vendedor_promo"
                                 style="width: 70%; align-self: center; margin-bottom: 16px; height: auto">
-                                <input type="checkbox" id="pet_injured" class="mdl-checkbox__input"
-                                    name="pet_condition">
+                                <input type="checkbox" id="vendedor_promo" class="mdl-checkbox__input"
+                                    name="vendedor_condition">
                                 <span class="mdl-checkbox__label">Oferece Promoções?</span>
                             </label>
                             <!-- PET SICK -->
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="pet_sick"
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="vendedor_feriado"
                                 style="width: 70%; align-self: center; margin-bottom: 16px; height: auto">
-                                <input type="checkbox" id="pet_sick" class="mdl-checkbox__input" name="pet_condition">
+                                <input type="checkbox" id="vendedor_feriado" class="mdl-checkbox__input" name="vendedor_condition">
                                 <span class=" mdl-checkbox__label">Aberto no Feriado?</span>
                             </label>
                             <!-- PET DESCRIPTION TEXT -->
@@ -205,37 +205,37 @@
                                 style="width: 70%; align-self: center; padding: 16px 0 0 0; text-align: justify;">
                                 Por favor nos de uma breve descrição sobre seus produtos *:
                             </div>
-                            <!-- PET DESCRIPTION TEXT AREA => pet_description -->
+                            <!-- PET DESCRIPTION TEXT AREA => vendedor_description -->
                             <div class="mdl-textfield mdl-js-textfield" style="width: 70%; align-self: center;">
-                                <textarea class=" mdl-textfield__input" type="text" maxlength="150" id="pet_description"
+                                <textarea class=" mdl-textfield__input" type="text" maxlength="150" id="vendedor_description"
                                     style="resize: none; height: 80px;"></textarea>
-                                <label class="mdl-textfield__label" for="pet_description">Descrição</label>
+                                <label class="mdl-textfield__label" for="vendedor_description">Descrição</label>
                             </div>
                             <!-- PET PICTURE TEXT -->
                             <div class="mdl-card__supporting-text"
                                 style="width: 70%; align-self: center; padding: 16px 0;">
                                 Por favor adicione uma foto de seu(s) produto(s) *:
                             </div>
-                            <!-- PET PICTURE => pet_picture -->
-                            <label for="pet_picture" style="margin: 0; align-self: center; margin: 0 0 16px 0;"
+                            <!-- PET PICTURE => vendedor_picture -->
+                            <label for="vendedor_picture" style="margin: 0; align-self: center; margin: 0 0 16px 0;"
                                 class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-                                <input type="file" accept="image/*" capture="camera" id="pet_picture"
+                                <input type="file" accept="image/*" capture="camera" id="vendedor_picture"
                                     style="display: none;">
                                 <i class="material-icons">photo</i>
                             </label>
-                            <canvas id="pet_frame"
+                            <canvas id="vendedor_frame"
                                 style="width: 180px; height: 130px; align-self: center; margin-bottom: 16px; border: 2px solid #757575"></canvas>
                             <!-- PET ADDRESS TEXT -->
                             <div class="mdl-card__supporting-text"
                                 style="width: 70%; align-self: center; padding: 16px 0 0 0; text-align: justify;">
                                 Endereço aproximado (O endereço é preenchido automaticamente):
                             </div>
-                            <!-- PET ADDRESS TEXT AREA => pet_address -->
+                            <!-- PET ADDRESS TEXT AREA => vendedor_address -->
                             <div id="div_address" class="mdl-textfield mdl-js-textfield"
                                 style="width: 70%; align-self: center;">
-                                <textarea class=" mdl-textfield__input" type="text" maxlength="150" id="pet_address"
+                                <textarea class=" mdl-textfield__input" type="text" maxlength="150" id="vendedor_address"
                                     style="resize: none; height: 80px;" disabled></textarea>
-                                <label class="mdl-textfield__label" for="pet_address">Endereço</label>
+                                <label class="mdl-textfield__label" for="vendedor_address">Endereço</label>
                             </div>
                             <!-- REGISTER BUTTON => app_register -->
                             <button id="app_register"
@@ -284,20 +284,20 @@
             <h1 class="unselected">Filtro</h1>
             <div style="height: 230px; display: flex; flex-direction: column;">
                 <p style="margin-bottom: 16px">Tipo de Vendedor:</p>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pet_divType1"
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="vendedor_divType1"
                     style="width: 70%; align-self: center; margin-bottom: 16px;">
-                    <input type="radio" id="pet_divType1" class="mdl-radio__button" name="pet_typeF" value="Comida"
+                    <input type="radio" id="vendedor_divType1" class="mdl-radio__button" name="vendedor_typeF" value="Comida"
                         checked>
                     <span class="mdl-radio__label">Comida/Bebida</span>
                 </label>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pet_divType2"
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="vendedor_divType2"
                     style="width: 70%; align-self: center; margin-bottom: 16px;">
-                    <input type="radio" id="pet_divType2" class="mdl-radio__button" name="pet_typeF" value="Artesanato">
+                    <input type="radio" id="vendedor_divType2" class="mdl-radio__button" name="vendedor_typeF" value="Artesanato">
                     <span class="mdl-radio__label">Artesanato</span>
                 </label>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="pet_divType3"
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="vendedor_divType3"
                     style="width: 70%; align-self: center; margin-bottom: 16px;">
-                    <input type="radio" id="pet_divType3" class="mdl-radio__button" name="pet_typeF" value="Outro">
+                    <input type="radio" id="vendedor_divType3" class="mdl-radio__button" name="vendedor_typeF" value="Outro">
                     <span class="mdl-radio__label">Outro</span>
                 </label>
                 <p style="margin-bottom: 16px">Distância (m):</p>

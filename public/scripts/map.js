@@ -25,7 +25,7 @@
         request.onupgradeneeded = function (event) {
             console.log("Atualizando");
             db = event.target.result;
-            var objectStore = db.createObjectStore("pets", { keyPath: "petId" });
+            var objectStore = db.createObjectStore("vendedor", { keyPath: "vendedorId" });
         };
         request.onsuccess = function (event) {
             console.log("Banco de dados aberto com sucesso");
@@ -36,12 +36,12 @@
     // PET OBJECT
     let obj_pet = {
         // PET INPUTS
-        ipt_nickname: document.getElementById('pet_nickname'),
-        ipt_type: document.getElementsByName('pet_type'),
-        ipt_color: document.getElementsByName('pet_color'),
-        ipt_condition: document.getElementsByName('pet_condition'),
-        ipt_description: document.getElementById('pet_description'),
-        ipt_address: document.getElementById('pet_address')
+        ipt_nickname: document.getElementById('vendedor_nickname'),
+        ipt_type: document.getElementsByName('vendedor_type'),
+        ipt_turno: document.getElementsByName('vendedor_turno'),
+        ipt_condition: document.getElementsByName('vendedor_condition'),
+        ipt_description: document.getElementById('vendedor_description'),
+        ipt_address: document.getElementById('vendedor_address')
     },
         obj_coordinate = null,
         // DIALOG
@@ -63,9 +63,9 @@
         btn_filter = document.getElementById('app_filter'),
         div_filter = document.getElementById('app_divFilter'),
         // PICTURE BUTTON
-        btn_picture = document.getElementById('pet_picture'),
+        btn_picture = document.getElementById('vendedor_picture'),
         // PICTURE FRAME
-        com_canvas = document.getElementById('pet_frame'),
+        com_canvas = document.getElementById('vendedor_frame'),
         binaryString = null,
         ctx = com_canvas.getContext("2d"),
         can_width = 180,
@@ -79,7 +79,7 @@
         // FLOAT BUTTON
         btn_float = document.getElementById('app_float'),
         // UL
-        ul_petList = document.querySelector('.pet_list'),
+        ul_petList = document.querySelector('.vendedor_list'),
         // WINDOW CONTENT FOR MATERIAL DESIGN LITE
         windowContent = document.querySelector('.mdl-layout__content'),
         // GET PET TYPE
@@ -117,15 +117,15 @@
             el_list.innerHTML = '';
             let template = '';
             data.map(item => {
-                let pet_date = item.date.substr(0, item.date.length - 14).split('-');
+                let vendedor_date = item.date.substr(0, item.date.length - 14).split('-');
                 switch (item.type) {
                     case 'Comida':
-                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
+                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#546EFD;">pets</i>
                             <span>${item.nickname}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}
+                              ${item.type} - ${vendedor_date[2]}-${vendedor_date[1]}-${vendedor_date[0]}
                             </span>
                         </span>
                         </li>`;
@@ -136,18 +136,18 @@
                             <i class="material-icons mdl-list__item-icon" style="color:#FF9800;">pets</i>
                             <span>${item.nickname}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}
+                              ${item.type} - ${vendedor_date[2]}-${vendedor_date[1]}-${vendedor_date[0]}
                             </span>
                         </span>
                         </li>`;
                         break;
                     case 'Outro':
-                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
+                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#424242;">pets</i>
                             <span>${item.nickname}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}
+                              ${item.type} - ${vendedor_date[2]}-${vendedor_date[1]}-${vendedor_date[0]}
                             </span>
                         </span>
                         </li>`;
@@ -216,30 +216,30 @@
             // GROUP TO HOLD MAP BJECTS
             group = new H.map.Group();
             data.map(item => {
-                let pet_icon = null,
-                    pet_marker = null,
-                    pet_date = item.date.substr(0, item.date.length - 14).split('-'),
+                let vendedor_icon = null,
+                    vendedor_marker = null,
+                    vendedor_date = item.date.substr(0, item.date.length - 14).split('-'),
                     latLng = item.coordinates.split(',');
                 switch (item.type) {
                     case 'Gato':
                         // ICON
-                        pet_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#546EFD'), { size: { w: 24, h: 30 }, anchor: { x: 12, y: 17 } });
+                        vendedor_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#546EFD'), { size: { w: 24, h: 30 }, anchor: { x: 12, y: 17 } });
                         break;
                     case 'Cachorro':
                         // ICON
-                        pet_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#FF9800'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
+                        vendedor_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#FF9800'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
                         break;
                     case 'Outro':
                         // ICON
-                        pet_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#424242'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
+                        vendedor_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#424242'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
                         break;
                     default:
                         break;
                 };
                 // MARKER
-                pet_marker = new H.map.Marker({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) }, { icon: pet_icon, data: `${item.nickname}<br>${item.type}<br>${pet_date[2]}-${pet_date[1]}-${pet_date[0]}` });
+                vendedor_marker = new H.map.Marker({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) }, { icon: vendedor_icon, data: `${item.nickname}<br>${item.type}<br>${vendedor_date[2]}-${vendedor_date[1]}-${vendedor_date[0]}` });
                 // ADD THE MARKER TO THE GROUP  
-                group.addObject(pet_marker);
+                group.addObject(vendedor_marker);
             });
 
             // EVENT TO SHOW BUBBLE
@@ -408,14 +408,14 @@
                         createList(ul_petList, [...data.respTemplate]);
 
                         // INDEXED DB
-                        var transaction = db.transaction(["pets"], "readwrite");
+                        var transaction = db.transaction(["vendedor"], "readwrite");
                         transaction.oncomplete = function (event) {
                             console.log("Sucesso");
                         };
                         transaction.onerror = function (event) {
                             console.error("Erro");
                         };
-                        var objectStore = transaction.objectStore("pets");
+                        var objectStore = transaction.objectStore("vendedor");
                         objectStore.clear();
                         [...data.respTemplate].map(item => {
                             objectStore.add(item);
@@ -441,8 +441,8 @@
             });
 
             let dbPet = [],
-                transaction = db.transaction(['pets'], 'readonly'),
-                objectStore = transaction.objectStore('pets');
+                transaction = db.transaction(['vendedor'], 'readonly'),
+                objectStore = transaction.objectStore('vendedor');
             objectStore.openCursor().onsuccess = function (event) {
                 var cursor = event.target.result;
                 if (cursor) {
@@ -573,7 +573,7 @@
                         };
 
                         let dist = div_filter.children[0].children[1].children[5].children[1],
-                            petType = document.getElementsByName('pet_typeF');
+                            petType = document.getElementsByName('vendedor_typeF');
 
                         let str_auth = localStorage.getItem('auth'),
                             obj_auth = JSON.parse(str_auth),
@@ -856,7 +856,7 @@
             appShowSnackBar(snackbar, 'Favor preencher os campos obrigatórios (*)');
             return;
         }
-        [...obj_pet.ipt_color].map(item => {
+        [...obj_pet.ipt_turno].map(item => {
             if (item.checked) {
                 count++;
             }
@@ -869,13 +869,13 @@
         if (navigator.onLine) {
             let str_auth = localStorage.getItem('auth'),
                 obj_auth = JSON.parse(str_auth),
-                pet = {
-                    userId: obj_auth.id,
-                    nickname: obj_pet.ipt_nickname.value.trim(),
-                    type: getPetType(obj_pet.ipt_type),
-                    color: getPetColor(obj_pet.ipt_color),
-                    injured: obj_pet.ipt_condition[0].checked ? true : false,
-                    sick: obj_pet.ipt_condition[1].checked ? true : false,
+                vendedor = {
+                    vendedor_Id: obj_auth.id,
+                    vendedor_nickname: obj_pet.ipt_nickname.value.trim(),
+                    vendedor_type: getPetType(obj_pet.ipt_type),
+                    vendedor_turno: getPetColor(obj_pet.ipt_turno),
+                    vendedor_promo: obj_pet.ipt_condition[0].checked ? true : false,
+                    vendedor_feriado: obj_pet.ipt_condition[1].checked ? true : false,
                     description: obj_pet.ipt_description.value.trim(),
                     address: obj_pet.ipt_address.value.trim(),
                     coordinates: obj_coordinate,
@@ -892,7 +892,7 @@
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${obj_auth.token}`
                 },
-                body: JSON.stringify(pet)
+                body: JSON.stringify(vendedor)
             })
                 .then(result => { return result.json() })
                 .then(data => {
