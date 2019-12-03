@@ -855,11 +855,11 @@
     btn_register.addEventListener('click', () => {
         // CHECK USER INPUTS
         let count = 0;
-        if (obj_vendedor.ipt_nome.value === '' || obj_pet.ipt_description.value === '' || obj_pet.ipt_address.value === '') {
+        if (obj_vendedor.ipt_name.value === '' || obj_vendedor.ipt_description.value === '' || obj_vendedor.ipt_address.value === '') {
             appShowSnackBar(snackbar, 'Favor preencher os campos obrigatórios (*)');
             return;
         }
-        [...obj_pet.ipt_color].map(item => {
+        [...obj_vendedor.ipt_color].map(item => {
             if (item.checked) {
                 count++;
             }
@@ -872,16 +872,16 @@
         if (navigator.onLine) {
             let str_auth = localStorage.getItem('auth'),
                 obj_auth = JSON.parse(str_auth),
-                pet = {
-                    userId: obj_auth.id,
-                    nickname: obj_pet.ipt_nickname.value.trim(),
-                    type: getPetType(obj_pet.ipt_type),
-                    color: getPetColor(obj_pet.ipt_color),
-                    injured: obj_pet.ipt_condition[0].checked ? true : false,
-                    sick: obj_pet.ipt_condition[1].checked ? true : false,
-                    description: obj_pet.ipt_description.value.trim(),
-                    address: obj_pet.ipt_address.value.trim(),
-                    coordinates: obj_coordinate,
+                vendedor = {
+                    userId: obj_auth.id, 
+                    name: obj_vendedor.ipt_nome.value.trim(), 
+                    type: getType(obj_vendedor.ipt_type),
+                    workturn: getWorkturn(obj_vendedor.ipt_color),//(obj_vendedor.ipt_workturn.map(checkbox => checkbox.checked ? true : false)).join(','), // aqui eu quase tenho certeza que vai dar pau
+                    promo: obj_vendedor.ipt_promo.checked ? true : false,                                             // pq são 3 checkboxes, vou implementar uma paradinha que tu vais ter que testar se funciona
+                    holiday: obj_vendedor.ipt_holiday.checked ? true : false,                                         // aqui eu espero que retorne uma array com as boxes marcadas, tipo ["Manha","Tarde"]
+                    description: obj_vendedor.ipt_description.value.trim(),                                           // então com o join ali, retorna uma string "Manha,Tarde"
+                    address: obj_vendedor.ipt_address.value.trim(),                                                   // ou o vendedor vai trabalhar um turno só ? se for mais de 1, tens que aumentar o parametro no postgres de Char(5)
+                    coordinates: obj_coordinate, 
                     picture: binaryString,
                     status: [0, 0]
                 };
@@ -895,7 +895,7 @@
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${obj_auth.token}`
                 },
-                body: JSON.stringify(pet)
+                body: JSON.stringify(vendedor)
             })
                 .then(result => { return result.json() })
                 .then(data => {
