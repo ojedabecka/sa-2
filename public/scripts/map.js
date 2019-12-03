@@ -18,14 +18,14 @@
         console.error("Sem suporte para IndexedDB");
     }
     else {
-        request = window.indexedDB.open("petResgate", 1);
+        request = window.indexedDB.open("istreet", 1);
         request.onerror = function (event) {
             console.error("Erro ao abrir o banco de dados", event);
         }
         request.onupgradeneeded = function (event) {
             console.log("Atualizando");
             db = event.target.result;
-            var objectStore = db.createObjectStore("pets", { keyPath: "petId" });
+            var objectStore = db.createObjectStore("vendedor", { keyPath: "vendedorId" });
         };
         request.onsuccess = function (event) {
             console.log("Banco de dados aberto com sucesso");
@@ -33,9 +33,9 @@
         }
     }
 
-    // PET OBJECT
+    // vendedor OBJECT
     let obj_vendedor = {
-        // PET INPUTS
+        // vendedor INPUTS
         ipt_name: document.getElementById('vendedor_name'), 
         ipt_type: document.getElementsByName('vendedor_type'), 
         ipt_workturn: document.getElementsByName('vendedor_workturn'), 
@@ -66,9 +66,9 @@
         btn_filter = document.getElementById('app_filter'),
         div_filter = document.getElementById('app_divFilter'),
         // PICTURE BUTTON
-        btn_picture = document.getElementById('pet_picture'),
+        btn_picture = document.getElementById('vendedor_picture'),
         // PICTURE FRAME
-        com_canvas = document.getElementById('pet_frame'),
+        com_canvas = document.getElementById('vendedor_frame'),
         binaryString = null,
         ctx = com_canvas.getContext("2d"),
         can_width = 180,
@@ -82,10 +82,10 @@
         // FLOAT BUTTON
         btn_float = document.getElementById('app_float'),
         // UL
-        ul_petList = document.querySelector('.pet_list'),
+        ul_vendedorList = document.querySelector('.vendedor_list'),
         // WINDOW CONTENT FOR MATERIAL DESIGN LITE
         windowContent = document.querySelector('.mdl-layout__content'),
-        // GET PET TYPE
+        // GET vendedor TYPE
         getType = el_group => {
             let _type = null;
             [...el_group].map(item => {
@@ -120,37 +120,37 @@
             el_list.innerHTML = '';
             let template = '';
             data.map(item => {
-                let pet_date = item.date.substr(0, item.date.length - 14).split('-');
+                let vendedor_date = item.date.substr(0, item.date.length - 14).split('-');
                 switch (item.type) {
                     case 'Comida':
-                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
+                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#546EFD;">pets</i>
-                            <span>${item.nickname}</span>
+                            <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}
+                              ${item.type} - ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}
                             </span>
                         </span>
                         </li>`;
                         break;
                     case 'Artesanato':
-                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
+                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#FF9800;">pets</i>
                             <span>${item.nickname}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}
+                              ${item.type} - ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}
                             </span>
                         </span>
                         </li>`;
                         break;
                     case 'Outro':
-                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.petId}">
+                        template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#424242;">pets</i>
                             <span>${item.nickname}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}
+                              ${item.type} - ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}
                             </span>
                         </span>
                         </li>`;
@@ -167,9 +167,9 @@
                         let obj_vendedor = {
                             id: event.currentTarget.id
                         },
-                            str_pet = JSON.stringify(obj_vendedor);
-                        localStorage.setItem('pet', str_pet);
-                        window.location = 'pet.html';
+                            str_vendedor = JSON.stringify(obj_vendedor);
+                        localStorage.setItem('vendedor', str_vendedor);
+                        window.location = 'vendedor.html';
                     }
                     else {
                         appShowSnackBar(snackbar, 'Sem internet');
@@ -219,30 +219,30 @@
             // GROUP TO HOLD MAP BJECTS
             group = new H.map.Group();
             data.map(item => {
-                let pet_icon = null,
-                    pet_marker = null,
-                    pet_date = item.date.substr(0, item.date.length - 14).split('-'),
+                let vendedor_icon = null,
+                    vendedor_marker = null,
+                    vendedor_date = item.date.substr(0, item.date.length - 14).split('-'),
                     latLng = item.coordinates.split(',');
                 switch (item.type) {
                     case 'Gato':
                         // ICON
-                        pet_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#546EFD'), { size: { w: 24, h: 30 }, anchor: { x: 12, y: 17 } });
+                        vendedor_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#546EFD'), { size: { w: 24, h: 30 }, anchor: { x: 12, y: 17 } });
                         break;
                     case 'Cachorro':
                         // ICON
-                        pet_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#FF9800'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
+                        vendedor_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#FF9800'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
                         break;
                     case 'Outro':
                         // ICON
-                        pet_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#424242'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
+                        vendedor_icon = new H.map.Icon(svgMarker.replace('{FILL}', '#424242'), { size: { w: 28, h: 34 }, anchor: { x: 14, y: 17 } });
                         break;
                     default:
                         break;
                 };
                 // MARKER
-                pet_marker = new H.map.Marker({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) }, { icon: pet_icon, data: `${item.nickname}<br>${item.type}<br>${pet_date[2]}-${pet_date[1]}-${pet_date[0]}` });
+                vendedor_marker = new H.map.Marker({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) }, { icon: vendedor_icon, data: `${item.name}<br>${item.type}<br>${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}` });
                 // ADD THE MARKER TO THE GROUP  
-                group.addObject(pet_marker);
+                group.addObject(vendedor_marker);
             });
 
             // EVENT TO SHOW BUBBLE
@@ -368,7 +368,7 @@
         }
     });
 
-    let petData = null;
+    let vendedorData = null;
     // WINDOW EVENT TO CHECK AUTHENTICATION
     window.addEventListener('load', () => {
         // CHECK ONLINE STATE
@@ -395,8 +395,8 @@
                         console.error(err.message);
                         window.location = 'index.html';
                     });
-                // NODE.JS API getPets
-                fetch('/pets', {
+                // NODE.JS API getvendedors
+                fetch('/vendedores', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${obj_auth.token}`
@@ -404,21 +404,21 @@
                 })
                     .then(result => { return result.json() })
                     .then(data => {
-                        petData = [...data.respTemplate];
+                        vendedorData = [...data.respTemplate];
                         // ADD SVG MARKER TO THE MAP
                         addSVGMarkers(map, [...data.respTemplate]);
                         // ADD ITEMS TO THE LIST
-                        createList(ul_petList, [...data.respTemplate]);
+                        createList(ul_vendedorList, [...data.respTemplate]);
 
                         // INDEXED DB
-                        var transaction = db.transaction(["pets"], "readwrite");
+                        var transaction = db.transaction(["vendedor"], "readwrite");
                         transaction.oncomplete = function (event) {
                             console.log("Sucesso");
                         };
                         transaction.onerror = function (event) {
                             console.error("Erro");
                         };
-                        var objectStore = transaction.objectStore("pets");
+                        var objectStore = transaction.objectStore("vendedor");
                         objectStore.clear();
                         [...data.respTemplate].map(item => {
                             objectStore.add(item);
@@ -443,20 +443,20 @@
                 btn_ok() { appHideDialog(dialog); }
             });
 
-            let dbPet = [],
-                transaction = db.transaction(['pets'], 'readonly'),
-                objectStore = transaction.objectStore('pets');
+            let dbvendedor = [],
+                transaction = db.transaction(['vendedor'], 'readonly'),
+                objectStore = transaction.objectStore('vendedor');
             objectStore.openCursor().onsuccess = function (event) {
                 var cursor = event.target.result;
                 if (cursor) {
-                    dbPet.push(cursor.value);
+                    dbvendedor.push(cursor.value);
                     cursor.continue();
                 }
                 else {
                     // ADD SVG MARKER TO THE MAP
-                    addSVGMarkers(map, dbPet);
+                    addSVGMarkers(map, dbvendedor);
                     // ADD ITEMS TO THE LIST
-                    createList(ul_petList, dbPet);
+                    createList(ul_vendedorList, dbvendedor);
                 }
             };
         }
@@ -495,7 +495,7 @@
                 if (navigator.onLine) {
                     map.removeLayer(clusteringLayer);
                     // ADD SVG MARKER TO THE MAP
-                    addSVGMarkers(map, petData);
+                    addSVGMarkers(map, vendedorData);
                 }
                 else {
                     appShowSnackBar(snackbar, 'Sem internet');
@@ -508,7 +508,7 @@
                 if (navigator.onLine) {
                     map.removeObject(group);
                     // ADD SVG MARKER TO THE MAP
-                    startClustering(map, petData);
+                    startClustering(map, vendedorData);
                 }
                 else {
                     appShowSnackBar(snackbar, 'Sem internet');
@@ -576,13 +576,13 @@
                         };
 
                         let dist = div_filter.children[0].children[1].children[5].children[1],
-                            petType = document.getElementsByName('pet_typeF');
+                            vendedorType = document.getElementsByName('vendedor_typeF');
 
                         let str_auth = localStorage.getItem('auth'),
                             obj_auth = JSON.parse(str_auth),
                             filter = {
                                 coordinates: `${obj_position.latitude}, ${obj_position.longitude}`,
-                                type: getPetType(petType),
+                                type: getType(vendedorType),
                                 distance: (parseInt(dist.innerHTML) / 1000) / 111.12
                             };
 
@@ -598,14 +598,14 @@
                         })
                             .then(result => { return result.json() })
                             .then(data => {
-                                petData = [...data.respTemplate];
+                                vendedorData = [...data.respTemplate];
 
-                                appShowSnackBar(snackbar, `Resultado: ${petData.length}`);
+                                appShowSnackBar(snackbar, `Resultado: ${vendedorData.length}`);
 
                                 // ADD SVG MARKER TO THE MAP
                                 addSVGMarkers(map, [...data.respTemplate]);
                                 // ADD ITEMS TO THE LIST
-                                createList(ul_petList, [...data.respTemplate]);
+                                createList(ul_vendedorList, [...data.respTemplate]);
 
                                 addCircleToMap(map, { lat: obj_position.latitude, lng: obj_position.longitude }, parseInt(dist.innerHTML))
 
@@ -669,8 +669,8 @@
             let str_auth = localStorage.getItem('auth'),
                 obj_auth = JSON.parse(str_auth);
             appShowLoading(spinner, spinner.children[0]);
-            // NODE.JS API getPets
-            fetch('/pets', {
+            // NODE.JS API getvendedors
+            fetch('/vendedores', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${obj_auth.token}`
@@ -678,11 +678,11 @@
             })
                 .then(result => { return result.json() })
                 .then(data => {
-                    petData = [...data.respTemplate];
+                    vendedorData = [...data.respTemplate];
                     // ADD SVG MARKER TO THE MAP
                     addSVGMarkers(map, [...data.respTemplate]);
                     // ADD ITEMS TO THE LIST
-                    createList(ul_petList, [...data.respTemplate]);
+                    createList(ul_vendedorList, [...data.respTemplate]);
 
                     appHideLoading(spinner, spinner.children[0]);
                 })
@@ -851,7 +851,7 @@
         }
     });
 
-    // REGISTER A PET EVENT
+    // REGISTER A vendedor EVENT
     btn_register.addEventListener('click', () => {
         // CHECK USER INPUTS
         let count = 0;
@@ -859,7 +859,7 @@
             appShowSnackBar(snackbar, 'Favor preencher os campos obrigatórios (*)');
             return;
         }
-        [...obj_vendedor.ipt_color].map(item => {
+        [...obj_vendedor.ipt_workturn].map(item => {
             if (item.checked) {
                 count++;
             }
@@ -887,7 +887,7 @@
                 };
 
             appShowLoading(spinner, spinner.children[0]);
-            // NODE.JS API createPet
+            // NODE.JS API createvendedor
             fetch('/addVendedor', {
                 method: 'POST',
                 headers: {

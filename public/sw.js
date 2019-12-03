@@ -9,7 +9,7 @@ self.addEventListener('install', function (event) {
     var urlsToPrefetch = [
         'index.html',
         'map.html',
-        'pet.html',
+        'vendedor.html',
         'profile.html',
         'recover.html',
         'register.html',
@@ -21,7 +21,7 @@ self.addEventListener('install', function (event) {
         'scripts/index.js',
         'scripts/map.js',
         'scripts/material.min.js',
-        'scripts/pet.js',
+        'scripts/vendedor.js',
         'scripts/profile.js',
         'scripts/recover.js',
         'scrip'

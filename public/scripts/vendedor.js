@@ -1,7 +1,7 @@
 (() => {
     'use strict'
 
-    let com_canvas = document.getElementById('pet_frame'),
+    let com_canvas = document.getElementById('vendedor_frame'),
         ctx = com_canvas.getContext("2d"),
         can_width = 180,
         can_height = 130,
@@ -17,7 +17,7 @@
         snackbar = document.getElementById('app_snackbar'),
         // SPINNER
         spinner = document.getElementById('app_loading'),
-        pet_description = document.getElementById('pet_description');
+        vendedor_description = document.getElementById('vendedor_description');
 
     // WINDOW EVENT TO CHECK AUTHENTICATION
     window.addEventListener('load', () => {
@@ -45,11 +45,11 @@
                         console.error(err.message);
                         window.location = 'index.html';
                     });
-                if (localStorage.hasOwnProperty('pet')) {
-                    let str_pet = localStorage.getItem('pet'),
-                        obj_pet = JSON.parse(str_pet);
-                    // NODE.JS API getPet
-                    fetch(`/pet/${obj_pet.id}`, {
+                if (localStorage.hasOwnProperty('vendedor')) {
+                    let str_vendedor = localStorage.getItem('vendedor'),
+                        obj_vendedor = JSON.parse(str_vendedor);
+                    // NODE.JS API getvendedor
+                    fetch(`/vendedor/${obj_vendedor.id}`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${obj_auth.token}`
@@ -59,7 +59,7 @@
                         .then(data => {
                             // DATA ARRAYBUFFER TO BASE 64 STRING
                             let base64String = String.fromCharCode.apply(null, new Uint16Array(data.respTemplate.picture.data)),
-                                pet_date = data.respTemplate.date.substr(0, data.respTemplate.date.length - 14).split('-'),
+                                vendedor_date = data.respTemplate.date.substr(0, data.respTemplate.date.length - 14).split('-'),
                                 template = null,
                                 // CREATES A IMAGE
                                 img = new Image();
@@ -77,13 +77,14 @@
                             template = `Nome: ${data.respTemplate.nickname}<br><br>
                             Tipo: ${data.respTemplate.type}<br><br>
                             Cores: ${data.respTemplate.color}<br><br>
-                            Data de Cadastro:  ${pet_date[2]}-${pet_date[1]}-${pet_date[0]}<br><br>
-                            Parece estar machucado: ${data.respTemplate.injured ? 'Sim' : 'Não'}<br><br>
-                            Parece estar doente: ${data.respTemplate.sick ? 'Sim' : 'Não'}<br><br>                        
+                            Data de Cadastro:  ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}<br><br>
+                            Tem Promoção ? ${data.respTemplate.promo ? 'Sim' : 'Não'}<br><br>
+                            Trabalha nos Feriados ? ${data.respTemplate.holiday ? 'Sim' : 'Não'}<br><br>
+                            Turnos : ${data.respTemplate.workturn}<br><br>                        
                             Localização: ${data.respTemplate.address}<br>${data.respTemplate.coordinates}<br><br>
                             Descrição: ${data.respTemplate.description}`;
 
-                            pet_description.innerHTML = template;
+                            vendedor_description.innerHTML = template;
                             appHideLoading(spinner, spinner.children[0]);
 
                         })
@@ -133,11 +134,11 @@
                 btn_yes() {
                     let str_auth = localStorage.getItem('auth'),
                         obj_auth = JSON.parse(str_auth),
-                        str_pet = localStorage.getItem('pet'),
-                        obj_pet = JSON.parse(str_pet),
+                        str_vendedor = localStorage.getItem('vendedor'),
+                        obj_vendedor = JSON.parse(str_vendedor),
                         rescue = {
                             status: [1, obj_auth.id],
-                            petId: obj_pet.id
+                            vendedorId: obj_vendedor.id
                         };
                     appShowLoading(spinner, spinner.children[0]);
                     // NODE.JS API rescue

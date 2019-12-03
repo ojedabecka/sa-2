@@ -139,7 +139,7 @@ module.exports = () => {
                                         from: 'app.petresgate@gmail.com',
                                         to: jsonData.email,
                                         subject: 'PET RESGATE - Recuperação de Cadastro',
-                                        text: `Esta é uma mensagem automática por favor não responda.\n\nVocê solicitou uma recuperação de cadastro para o app PET RESGATE. Os dados cadastrados para este e-mail são:\n\nNome de usuário: ${result.rows[0].user_name}\nSenha: ${new_password}\n\nAtenciosamente,\nPET RESGATE`
+                                        text: `Esta é uma mensagem automática por favor não responda.\n\nVocê solicitou uma recuperação de cadastro para o app PET RESGATE. Os dados cadastrados para este e-mail são:\n\nNome de usuário: ${item.user_name}\nSenha: ${new_password}\n\nAtenciosamente,\nPET RESGATE`
                                     };
                                     // E-MAIL FUNCTION
                                     transporter.sendMail(mailOptions, error => {
@@ -335,15 +335,24 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // SELECT QUERY
-                    client.query("SELECT * FROM vendedor WHERE pet_status[1] = 0 ORDER BY vendedor_id")
+                    client.query("SELECT * FROM vendedor WHERE vendedor_status[1] = 0 ORDER BY vendedor_id")
                         // ON SUCCESS
                         .then(result => {
                             result.rows.map(item => {
                                 respTemplate.push({
-                                    vendedorId: item.pet_id,
-                                    name: item.pet_nickname.trim(),
-                                    type: item.pet_type.trim(),
-                                    coordinates: item.pet_coordinates.trim(),
+                                    vendedorId: item.vendedor_id,
+                                    userId: item.user_id,
+                                    name: item.vendedor_name.trim(),
+                                    type: item.vendedor_type.trim(),
+                                    workturn: item.vendedor_workturn.trim(),
+                                    promo: item.vendedor_promo,
+                                    holiday: item.vendedor_holiday,                                
+                                    description: item.vendedor_description.trim(),
+                                    address: item.vendedor_address.trim(),
+                                    coordinates: item.vendedor_coordinates.trim(),                                
+                                    picture: item.vendedor_picture,
+                                    status: item.vendedor_status,
+                                    geom: item.geom,
                                 });
                             });
                             // RESPONSE OK 200
@@ -366,7 +375,7 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // UPDATE QUERY
-                    client.query("UPDATE pets SET pet_status = $1 WHERE pet_id = $2", [jsonData.status, jsonData.petId])
+                    client.query("UPDATE vendedor SET vendedor_status = $1 WHERE vendedor_id = $2", [jsonData.status, jsonData.vendedorId])
                         // ON SUCCESS
                         .then(() => {
                             // RESPONSE OK 200
@@ -380,7 +389,7 @@ module.exports = () => {
                 // ON ERROR => RESPONSE BAD REQUEST 400
                 .catch(err => res.status(400).json({ message: err.message }));
         },
-        // FILTER PETS => /filter => post
+        // FILTER vendedorS => /filter => post
         filter(req, res) {
             // USER DATA
             let jsonData = req.body,
@@ -397,12 +406,20 @@ module.exports = () => {
                         // ON SUCCESS
                         .then(result => {
                             result.rows.map(item => {
-                                respTemplate.push({
-                                    petId: item.pet_id,
-                                    nickname: item.pet_nickname.trim(),
-                                    type: item.pet_type.trim(),
-                                    coordinates: item.pet_coordinates.trim(),
-                                    date: item.pet_date
+                                    respTemplate.push({
+                                        vendedorId: item.vendedor_id,
+                                        name: item.vendedor_name.trim(),
+                                        type: item.vendedor_type.trim(),
+                                        workturn: item.vendedor_workturn.trim(),
+                                        promo: item.vendedor_promo,
+                                        holiday: item.vendedor_holiday,                                
+                                        description: item.vendedor_description.trim(),
+                                        address: item.vendedor_address.trim(),
+                                        coordinates: item.vendedor_coordinates.trim(),                                
+                                        picture: item.vendedor_picture,
+                                        status: item.vendedor_status,
+                                        geom: item.geom,
+                                    });
                                 });
                             });
                             // RESPONSE OK 200
