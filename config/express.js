@@ -26,7 +26,7 @@ module.exports = () => {
     });*/
 
 
-    app.set('PORT', 3000);
+    app.set('PORT', process.env.PORT);
     app.use(bodyParser.json());
     app.use(express.static('./public'));
     app.use(auth.initialize());
