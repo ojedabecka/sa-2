@@ -34,14 +34,17 @@
     }
 
     // PET OBJECT
-    let obj_pet = {
+    let obj_vendedor = {
         // PET INPUTS
-        ipt_nickname: document.getElementById('pet_nickname'),
-        ipt_type: document.getElementsByName('pet_type'),
-        ipt_color: document.getElementsByName('pet_color'),
-        ipt_condition: document.getElementsByName('pet_condition'),
-        ipt_description: document.getElementById('pet_description'),
-        ipt_address: document.getElementById('pet_address')
+        ipt_name: document.getElementById('vendedor_name'), 
+        ipt_type: document.getElementsByName('vendedor_type'), 
+        ipt_workturn: document.getElementsByName('vendedor_workturn'), 
+        ipt_promo: document.getElementById('vendedor_promo'), 
+        ipt_holiday: document.getElementById('vendedor_holiday'), 
+        ipt_description: document.getElementById('vendedor_description'), 
+        ipt_address: document.getElementById('vendedor_adress').value, 
+        ipt_coordinates: document.getElementById('vendedor_coordinates'), 
+        ipt_picture: document.getElementById('vendedor_picture')
     },
         obj_coordinate = null,
         // DIALOG
@@ -83,7 +86,7 @@
         // WINDOW CONTENT FOR MATERIAL DESIGN LITE
         windowContent = document.querySelector('.mdl-layout__content'),
         // GET PET TYPE
-        getPetType = el_group => {
+        getType = el_group => {
             let _type = null;
             [...el_group].map(item => {
                 if (item.checked) {
@@ -92,14 +95,14 @@
             });
             return _type;
         },
-        getPetColor = el_group => {
-            let _color = [];
+        getWorkturn = el_group => {
+            let _workturn = [];
             [...el_group].map(item => {
                 if (item.checked) {
-                    _color.push(item.value);
+                    _workturn.push(item.value);
                 }
             });
-            return _color.toString();
+            return _workturn.toString();
         },
         // DISPLAY CONTENT
         displayContent = el_id => {
@@ -161,10 +164,10 @@
                 item.addEventListener('click', event => {
                     // CHECK ONLINE STATE
                     if (navigator.onLine) {
-                        let obj_pet = {
+                        let obj_vendedor = {
                             id: event.currentTarget.id
                         },
-                            str_pet = JSON.stringify(obj_pet);
+                            str_pet = JSON.stringify(obj_vendedor);
                         localStorage.setItem('pet', str_pet);
                         window.location = 'pet.html';
                     }
@@ -803,7 +806,7 @@
                                 },
                                     str_template = obj_template.street + obj_template.city + obj_template.state + obj_template.postalCode;
                                 com_address.classList.add('is-dirty');
-                                obj_pet.ipt_address.value = str_template.substr(0, str_template.length - 2);
+                                obj_vendedor.ipt_address.value = str_template.substr(0, str_template.length - 2);
                                 appHideLoading(spinner, spinner.children[0]);
                             })
                             .catch(err => {
@@ -852,7 +855,7 @@
     btn_register.addEventListener('click', () => {
         // CHECK USER INPUTS
         let count = 0;
-        if (obj_pet.ipt_nickname.value === '' || obj_pet.ipt_description.value === '' || obj_pet.ipt_address.value === '') {
+        if (obj_vendedor.ipt_nome.value === '' || obj_pet.ipt_description.value === '' || obj_pet.ipt_address.value === '') {
             appShowSnackBar(snackbar, 'Favor preencher os campos obrigatórios (*)');
             return;
         }
@@ -885,7 +888,7 @@
 
             appShowLoading(spinner, spinner.children[0]);
             // NODE.JS API createPet
-            fetch('/addPet', {
+            fetch('/addVendedor', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

@@ -275,7 +275,7 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // INSERT QUERY => CREATE A NEW USER
-                    client.query(`INSERT INTO vendedor (user_id, vendedor_nome, vendedor_type, vendedor_workturn, vendedor_promo, vendedor_holiday, vendedor_description, vendedor_address, vendedor_coordinates, geom, vendedor_picture) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, ST_GeomFromText('Point(${latLng})',4326))`, [jsonData.userId, jsonData.name, jsonData.type, jsonData.workturn, jsonData.promo, jsonData.holiday, jsonData.description, jsonData.address, jsonData.coordinates, jsonData.picture])
+                    client.query(`INSERT INTO vendedor (user_id, vendedor_nome, vendedor_type, vendedor_workturn, vendedor_promo, vendedor_holiday, vendedor_description, vendedor_address, vendedor_coordinates, vendedor_picture, vendedor_status, geom) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, ST_GeomFromText('Point(${latLng})',4326))`, [jsonData.userId, jsonData.name, jsonData.type, jsonData.workturn, jsonData.promo, jsonData.holiday, jsonData.description, jsonData.address, jsonData.coordinates, jsonData.picture, jsonData.status])
                         // ON SUCCESS => RESPONSE OK 200
                         .then(() => res.status(200).json({ title: 'Tudo certo!', message: 'O vendedor foi cadastrado com sucesso.' }))
                         // ON ERROR => RESPONSE BAD REQUEST 400
@@ -312,6 +312,7 @@ module.exports = () => {
                                 address: result.rows[0].vendedor_address.trim(),
                                 coordinates: result.rows[0].vendedor_coordinates.trim(),                                
                                 picture: result.rows[0].vendedor_picture,
+                                status: result.rows[0].vendedor_status,
                                 geom: result.rows[0].geom
                             };
                             // RESPONSE OK 200
@@ -391,7 +392,7 @@ module.exports = () => {
             pool.connect()
                 // ON SUCCESS => CONNECTED
                 .then(client => {
-                    // INSERT QUERY => CREATE A NEW USER
+                    // INSERT QUERY => CREATE A NEW USER                                                                                                         arrumei as rotas já
                     client.query(`SELECT * FROM vendedor WHERE vendedor_type[1] = 0 AND ST_Intersects(geom,ST_Buffer(ST_GeomFromText('Point(${latLng})',4326),$1))`, [jsonData.distance, jsonData.type])
                         // ON SUCCESS
                         .then(result => {
