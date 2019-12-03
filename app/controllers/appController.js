@@ -265,7 +265,7 @@ module.exports = () => {
                 .catch(err => res.status(400).json({ message: err.message }));
         },
         // CREATE A NEW PET FUNCTION => /addpet => post
-        createPet(req, res) {
+        createVendedor(req, res) {
             // USER DATA
             let jsonData = req.body,
                 _latLng = jsonData.coordinates.split(','),
@@ -275,9 +275,9 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // INSERT QUERY => CREATE A NEW USER
-                    client.query(`INSERT INTO pets (user_id, pet_nickname, pet_type, pet_color, pet_injured, pet_sick, pet_fed, pet_description, pet_address, pet_coordinates, geom, pet_date, pet_picture, pet_status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, ST_GeomFromText('Point(${latLng})',4326), NOW(), $11, $12)`, [jsonData.userId, jsonData.nickname, jsonData.type, jsonData.color, jsonData.injured, jsonData.sick, jsonData.fed, jsonData.description, jsonData.address, jsonData.coordinates, jsonData.picture, jsonData.status])
+                    client.query(`INSERT INTO vendedor (user_id, vendedor_nome, vendedor_type, vendedor_workturn, vendedor_promo, vendedor_holiday, vendedor_description, vendedor_address, vendedor_coordinates, geom, vendedor_picture) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, ST_GeomFromText('Point(${latLng})',4326))`, [jsonData.userId, jsonData.name, jsonData.type, jsonData.workturn, jsonData.promo, jsonData.holiday, jsonData.description, jsonData.address, jsonData.coordinates, jsonData.picture])
                         // ON SUCCESS => RESPONSE OK 200
-                        .then(() => res.status(200).json({ title: 'Obrigado por ajudar', message: 'O animal foi cadastrado com sucesso.' }))
+                        .then(() => res.status(200).json({ title: 'Tudo certo!', message: 'O vendedor foi cadastrado com sucesso.' }))
                         // ON ERROR => RESPONSE BAD REQUEST 400
                         .catch(err => res.status(400).json({ message: err.message }))
                         // DISCONNECTING TO THE DATABASE
@@ -287,7 +287,7 @@ module.exports = () => {
                 .catch(err => res.status(400).json({ message: err.message }));
         },
         // GET PET DATA => /pet:id => get
-        getPet(req, res) {
+        getVendedor(req, res) {
             // PET ID
             let id = req.params.id,
                 // RESPONSE TEMPLATE
@@ -297,22 +297,22 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // SELECT QUERY
-                    client.query("SELECT * FROM pets WHERE pet_id = $1", [id])
+                    client.query("SELECT * FROM vendedor WHERE vendedor_id = $1", [id])
                         // ON SUCCESS
                         .then(result => {
-                            respTemplate = {
-                                petId: result.rows[0].pet_id,
-                                nickname: result.rows[0].pet_nickname.trim(),
-                                type: result.rows[0].pet_type.trim(),
-                                color: result.rows[0].pet_color.trim(),
-                                injured: result.rows[0].pet_injured,
-                                sick: result.rows[0].pet_sick,
-                                fed: result.rows[0].pet_fed,
-                                description: result.rows[0].pet_description.trim(),
-                                address: result.rows[0].pet_address.trim(),
-                                coordinates: result.rows[0].pet_coordinates.trim(),
-                                date: result.rows[0].pet_date,
-                                picture: result.rows[0].pet_picture
+                            respTemplate = {                  
+                                vendedorId: result.rows[0].vendedor_id,
+                                userId: result.rows[0].user_id,
+                                name: result.rows[0].vendedor_name.trim(),
+                                type: result.rows[0].vendedor_type.trim(),
+                                workturn: result.rows[0].vendedor_workturn.trim(),
+                                promo: result.rows[0].vendedor_promo,
+                                holiday: result.rows[0].vendedor_holiday,                                
+                                description: result.rows[0].vendedor_description.trim(),
+                                address: result.rows[0].vendedor_address.trim(),
+                                coordinates: result.rows[0].vendedor_coordinates.trim(),                                
+                                picture: result.rows[0].vendedor_picture,
+                                geom: result.rows[0].geom
                             };
                             // RESPONSE OK 200
                             res.status(200).json({ respTemplate });
@@ -326,7 +326,7 @@ module.exports = () => {
                 .catch(err => res.status(400).json({ message: err.message }));
         },
         // GET PETS DATA => /pets => get
-        getPets(req, res) {
+        getVendedores(req, res) {
             // RESPONSE TEMPLATE
             let respTemplate = [];
             // CONNECTING TO THE DATABASE
@@ -334,16 +334,15 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // SELECT QUERY
-                    client.query("SELECT * FROM pets WHERE pet_status[1] = 0 ORDER BY pet_date")
+                    client.query("SELECT * FROM vendedor WHERE pet_status[1] = 0 ORDER BY vendedor_id")
                         // ON SUCCESS
                         .then(result => {
                             result.rows.map(item => {
                                 respTemplate.push({
-                                    petId: item.pet_id,
-                                    nickname: item.pet_nickname.trim(),
+                                    vendedorId: item.pet_id,
+                                    name: item.pet_nickname.trim(),
                                     type: item.pet_type.trim(),
                                     coordinates: item.pet_coordinates.trim(),
-                                    date: item.pet_date
                                 });
                             });
                             // RESPONSE OK 200
@@ -393,7 +392,7 @@ module.exports = () => {
                 // ON SUCCESS => CONNECTED
                 .then(client => {
                     // INSERT QUERY => CREATE A NEW USER
-                    client.query(`SELECT * FROM pets WHERE pet_status[1] = 0 AND ST_Intersects(geom,ST_Buffer(ST_GeomFromText('Point(${latLng})',4326),$1)) AND pet_type = $2`, [jsonData.distance, jsonData.type])
+                    client.query(`SELECT * FROM vendedor WHERE vendedor_type[1] = 0 AND ST_Intersects(geom,ST_Buffer(ST_GeomFromText('Point(${latLng})',4326),$1))`, [jsonData.distance, jsonData.type])
                         // ON SUCCESS
                         .then(result => {
                             result.rows.map(item => {
