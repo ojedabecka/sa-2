@@ -35,17 +35,17 @@
 
     // vendedor OBJECT
     let obj_vendedor = {
-        // vendedor INPUTS
-        ipt_name: document.getElementById('vendedor_name'), 
-        ipt_type: document.getElementsByName('vendedor_type'), 
-        ipt_workturn: document.getElementsByName('vendedor_workturn'), 
-        ipt_promo: document.getElementById('vendedor_promo'), 
-        ipt_holiday: document.getElementById('vendedor_holiday'), 
-        ipt_description: document.getElementById('vendedor_description'), 
-        ipt_address: document.getElementById('vendedor_adress').value, 
-        ipt_coordinates: document.getElementById('vendedor_coordinates'), 
-        ipt_picture: document.getElementById('vendedor_picture')
-    },
+            // vendedor INPUTS
+            ipt_name: document.getElementById('vendedor_name'),
+            ipt_type: document.getElementsByName('vendedor_type'),
+            ipt_workturn: document.getElementsByName('vendedor_workturn'),
+            ipt_promo: document.getElementById('vendedor_promo'),
+            ipt_holiday: document.getElementById('vendedor_holiday'),
+            ipt_description: document.getElementById('vendedor_description'),
+            ipt_address: document.getElementById('vendedor_address'),
+            ipt_coordinates: document.getElementById('vendedor_coordinates'),
+            ipt_picture: document.getElementById('vendedor_picture')
+        },
         obj_coordinate = null,
         // DIALOG
         dialog = document.getElementById('app_dialog'),
@@ -115,12 +115,18 @@
                 }
             })
         },
+        formatDate = date => {
+            let splitted = date.split('T')
+            splitted[0] = splitted[0].split('-').reverse().join('/')
+            splitted[1] = splitted[1].substr(0,8)
+            return splitted.join(' - ')
+        },
         // CREATES THE LIST
         createList = (el_list, data) => {
             el_list.innerHTML = '';
             let template = '';
             data.map(item => {
-                let vendedor_date = item.date.substr(0, item.date.length - 14).split('-');
+                let vendedor_date = formatDate(item.date);
                 switch (item.type) {
                     case 'Comida':
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
@@ -128,7 +134,7 @@
                             <i class="material-icons mdl-list__item-icon" style="color:#546EFD;">pets</i>
                             <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}
+                              ${item.type} - ${(vendedor_date).substr(0,vendedor_date.length - 3)}
                             </span>
                         </span>
                         </li>`;
@@ -137,9 +143,9 @@
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#FF9800;">pets</i>
-                            <span>${item.nickname}</span>
+                            <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}
+                              ${item.type} - ${(vendedor_date).substr(0,vendedor_date.length - 3)}
                             </span>
                         </span>
                         </li>`;
@@ -148,9 +154,9 @@
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
                             <i class="material-icons mdl-list__item-icon" style="color:#424242;">pets</i>
-                            <span>${item.nickname}</span>
+                            <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
-                              ${item.type} - ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}
+                              ${item.type} - ${(vendedor_date).substr(0,vendedor_date.length - 3)}
                             </span>
                         </span>
                         </li>`;
@@ -165,8 +171,8 @@
                     // CHECK ONLINE STATE
                     if (navigator.onLine) {
                         let obj_vendedor = {
-                            id: event.currentTarget.id
-                        },
+                                id: event.currentTarget.id
+                            },
                             str_vendedor = JSON.stringify(obj_vendedor);
                         localStorage.setItem('vendedor', str_vendedor);
                         window.location = 'vendedor.html';
@@ -221,7 +227,7 @@
             data.map(item => {
                 let vendedor_icon = null,
                     vendedor_marker = null,
-                    vendedor_date = item.date.substr(0, item.date.length - 14).split('-'),
+                    vendedor_date = formatDate(item.date),
                     latLng = item.coordinates.split(',');
                 switch (item.type) {
                     case 'Gato':
@@ -240,8 +246,8 @@
                         break;
                 };
                 // MARKER
-                vendedor_marker = new H.map.Marker({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) }, { icon: vendedor_icon, data: `${item.name}<br>${item.type}<br>${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}` });
-                // ADD THE MARKER TO THE GROUP  
+                vendedor_marker = new H.map.Marker({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) }, { icon: vendedor_icon, data: `${item.name}<br>${item.type}<br>${(vendedor_date).substr(0,vendedor_date.length - 3)}`});
+                // ADD THE MARKER TO THE GROUP
                 group.addObject(vendedor_marker);
             });
 
@@ -281,9 +287,9 @@
         startClustering = (map, data) => {
             // ARRAY OF DATA POINT OBJECTS
             let dataPoints = data.map(item => {
-                let latLng = item.coordinates.split(',');
-                return new H.clustering.DataPoint(parseFloat(latLng[0]), parseFloat(latLng[1]));
-            }),
+                    let latLng = item.coordinates.split(',');
+                    return new H.clustering.DataPoint(parseFloat(latLng[0]), parseFloat(latLng[1]));
+                }),
                 // CREATE A CLUSTERING PROVIDER
                 clusteredDataProvider = new H.clustering.Provider(dataPoints, {
                     clusteringOptions: {
@@ -312,9 +318,9 @@
                             }
 
                             let clusterIcon = new H.map.Icon(svgString, {
-                                size: { w: w, h: h },
-                                anchor: { x: (w / 2), y: (h / 2) }
-                            }),
+                                    size: { w: w, h: h },
+                                    anchor: { x: (w / 2), y: (h / 2) }
+                                }),
                                 clusterMarker = new H.map.Marker(cluster.getPosition(), {
                                     icon: clusterIcon,
                                     min: cluster.getMinZoom(),
@@ -326,9 +332,9 @@
                         },
                         getNoisePresentation: noisePoint => {
                             let noiseIcon = new H.map.Icon(svgNoise, {
-                                size: { w: 20, h: 20 },
-                                anchor: { x: 10, y: 10 }
-                            }),
+                                    size: { w: 20, h: 20 },
+                                    anchor: { x: 10, y: 10 }
+                                }),
                                 noiseMarker = new H.map.Marker(noisePoint.getPosition(), {
                                     icon: noiseIcon,
                                     min: noisePoint.getMinZoom()
@@ -404,6 +410,7 @@
                 })
                     .then(result => { return result.json() })
                     .then(data => {
+                        console.log(data.respTemplate)
                         vendedorData = [...data.respTemplate];
                         // ADD SVG MARKER TO THE MAP
                         addSVGMarkers(map, [...data.respTemplate]);
@@ -784,9 +791,9 @@
                 getPosition(locationOptions)
                     .then(response => {
                         let obj_position = {
-                            latitude: response.coords.latitude.toFixed(6),
-                            longitude: response.coords.longitude.toFixed(6)
-                        },
+                                latitude: response.coords.latitude.toFixed(6),
+                                longitude: response.coords.longitude.toFixed(6)
+                            },
                             obj_here = {
                                 prox: `${obj_position.latitude}, ${obj_position.longitude}`, // THE ALTITUDE PARAMETER IS OPTIONAL (y,x,z)
                                 mode: 'retrieveAddresses',
@@ -799,11 +806,11 @@
                                 let address = location.response.view[0].result[0].location.address;
                                 // ADDRESS TEMPLATE
                                 let obj_template = {
-                                    street: address.street !== undefined ? `${address.street}, ` : '',
-                                    city: address.city !== undefined ? `${address.city}, ` : '',
-                                    state: address.state !== undefined ? `${address.state}, ` : '',
-                                    postalCode: address.postalCode !== undefined ? `${address.postalCode}, ` : ''
-                                },
+                                        street: address.street !== undefined ? `${address.street}, ` : '',
+                                        city: address.city !== undefined ? `${address.city}, ` : '',
+                                        state: address.state !== undefined ? `${address.state}, ` : '',
+                                        postalCode: address.postalCode !== undefined ? `${address.postalCode}, ` : ''
+                                    },
                                     str_template = obj_template.street + obj_template.city + obj_template.state + obj_template.postalCode;
                                 com_address.classList.add('is-dirty');
                                 obj_vendedor.ipt_address.value = str_template.substr(0, str_template.length - 2);
@@ -871,18 +878,22 @@
         // CHECK ONLINE STATE
         if (navigator.onLine) {
             let str_auth = localStorage.getItem('auth'),
-                obj_auth = JSON.parse(str_auth),
+                obj_auth = JSON.parse(str_auth);
+            let time = new Date(),
+                seconds = (time.getSeconds()) < 10 ? "0".concat((time.getSeconds())) : (time.getSeconds()),
+                ipt_date = `${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}:${seconds}`,
                 vendedor = {
-                    userId: obj_auth.id, 
-                    name: obj_vendedor.ipt_nome.value.trim(), 
+                    userId: obj_auth.id,
+                    name: obj_vendedor.ipt_name.value.trim(),
                     type: getType(obj_vendedor.ipt_type),
-                    workturn: getWorkturn(obj_vendedor.ipt_color),//(obj_vendedor.ipt_workturn.map(checkbox => checkbox.checked ? true : false)).join(','), // aqui eu quase tenho certeza que vai dar pau
+                    workturn: getWorkturn(obj_vendedor.ipt_workturn),//(obj_vendedor.ipt_workturn.map(checkbox => checkbox.checked ? true : false)).join(','), // aqui eu quase tenho certeza que vai dar pau
                     promo: obj_vendedor.ipt_promo.checked ? true : false,                                             // pq são 3 checkboxes, vou implementar uma paradinha que tu vais ter que testar se funciona
                     holiday: obj_vendedor.ipt_holiday.checked ? true : false,                                         // aqui eu espero que retorne uma array com as boxes marcadas, tipo ["Manha","Tarde"]
                     description: obj_vendedor.ipt_description.value.trim(),                                           // então com o join ali, retorna uma string "Manha,Tarde"
                     address: obj_vendedor.ipt_address.value.trim(),                                                   // ou o vendedor vai trabalhar um turno só ? se for mais de 1, tens que aumentar o parametro no postgres de Char(5)
-                    coordinates: obj_coordinate, 
+                    coordinates: obj_coordinate,
                     picture: binaryString,
+                    date: ipt_date,
                     status: [0, 0]
                 };
 

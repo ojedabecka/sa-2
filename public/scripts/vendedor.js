@@ -18,7 +18,12 @@
         // SPINNER
         spinner = document.getElementById('app_loading'),
         vendedor_description = document.getElementById('vendedor_description');
-
+    const formatDate = date => {
+        let splitted = date.split('T')
+        splitted[0] = splitted[0].split('-').reverse().join('/')
+        splitted[1] = splitted[1].substr(0,8)
+        return splitted.join(' - ')
+    };
     // WINDOW EVENT TO CHECK AUTHENTICATION
     window.addEventListener('load', () => {
         // CHECK ONLINE STATE
@@ -57,9 +62,10 @@
                     })
                         .then(result => { return result.json() })
                         .then(data => {
+                            console.log(data)
                             // DATA ARRAYBUFFER TO BASE 64 STRING
                             let base64String = String.fromCharCode.apply(null, new Uint16Array(data.respTemplate.picture.data)),
-                                vendedor_date = data.respTemplate.date.substr(0, data.respTemplate.date.length - 14).split('-'),
+                                vendedor_date = formatDate(data.respTemplate.date),
                                 template = null,
                                 // CREATES A IMAGE
                                 img = new Image();
@@ -74,10 +80,10 @@
                             },
                                 img.onerror = err => console.error(err.message);
 
-                            template = `Nome: ${data.respTemplate.nickname}<br><br>
-                            Tipo: ${data.respTemplate.type}<br><br>
+                            template = `Nome: ${data.respTemplate.name}<br><br>
+                            Produtos: ${data.respTemplate.type}<br><br>
                             Cores: ${data.respTemplate.color}<br><br>
-                            Data de Cadastro:  ${vendedor_date[2]}/${vendedor_date[1]}/${vendedor_date[0]}<br><br>
+                            Data de Cadastro:  ${(vendedor_date).substr(0,vendedor_date.length - 3)}<br><br>
                             Tem Promoção ? ${data.respTemplate.promo ? 'Sim' : 'Não'}<br><br>
                             Trabalha nos Feriados ? ${data.respTemplate.holiday ? 'Sim' : 'Não'}<br><br>
                             Turnos : ${data.respTemplate.workturn}<br><br>                        
