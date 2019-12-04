@@ -80,15 +80,14 @@
                             },
                                 img.onerror = err => console.error(err.message);
 
-                            template = `Nome: ${data.respTemplate.name}<br><br>
-                            Produtos: ${data.respTemplate.type}<br><br>
-                            Cores: ${data.respTemplate.color}<br><br>
-                            Data de Cadastro:  ${(vendedor_date).substr(0,vendedor_date.length - 3)}<br><br>
-                            Tem Promoção ? ${data.respTemplate.promo ? 'Sim' : 'Não'}<br><br>
-                            Trabalha nos Feriados ? ${data.respTemplate.holiday ? 'Sim' : 'Não'}<br><br>
-                            Turnos : ${data.respTemplate.workturn}<br><br>                        
-                            Localização: ${data.respTemplate.address}<br>${data.respTemplate.coordinates}<br><br>
-                            Descrição: ${data.respTemplate.description}`;
+                            template = `<strong>Nome:</strong> ${data.respTemplate.name}<br><br>
+                            <strong>Produtos:</strong> ${data.respTemplate.type}<br><br>
+                            <strong>Data de Cadastro:</strong>  ${(vendedor_date).substr(0,vendedor_date.length - 3)}<br><br>
+                            <strong>Tem Promoção ?</strong> ${data.respTemplate.promo ? 'Sim' : 'Não'}<br><br>
+                            <strong>Trabalha nos Feriados ?</strong> ${data.respTemplate.holiday ? 'Sim' : 'Não'}<br><br>
+                            <strong>Turnos :</strong> ${data.respTemplate.workturn}<br><br>                        
+                            <strong>Localização:</strong> ${data.respTemplate.coordinates}<br><br>
+                            <strong>Descrição:</strong> ${data.respTemplate.description}`;
 
                             vendedor_description.innerHTML = template;
                             appHideLoading(spinner, spinner.children[0]);

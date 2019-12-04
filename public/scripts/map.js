@@ -131,7 +131,7 @@
                     case 'Comida':
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon" style="color:#546EFD;">pets</i>
+                            <i class="material-icons mdl-list__item-icon" style="color:#6600ff;">fastfood</i>
                             <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
                               ${item.type} - ${(vendedor_date).substr(0,vendedor_date.length - 3)}
@@ -142,7 +142,7 @@
                     case 'Artesanato':
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon" style="color:#FF9800;">pets</i>
+                            <i class="material-icons mdl-list__item-icon" style="color:#33CCCC;">spa</i>
                             <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
                               ${item.type} - ${(vendedor_date).substr(0,vendedor_date.length - 3)}
@@ -153,7 +153,7 @@
                     case 'Outro':
                         template += `<li class="mdl-list__item mdl-list__item--two-line" id="${item.vendedorId}">
                         <span class="mdl-list__item-primary-content">
-                            <i class="material-icons mdl-list__item-icon" style="color:#424242;">pets</i>
+                            <i class="material-icons mdl-list__item-icon" style="color:#424242;">scatter_plot</i>
                             <span>${item.name}</span>
                             <span class="mdl-list__item-sub-title">
                               ${item.type} - ${(vendedor_date).substr(0,vendedor_date.length - 3)}
